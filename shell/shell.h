@@ -11,8 +11,10 @@
 #include <stddef.h>
 
 
-int _execute_cmd(char *args, struct stat *statbuffer, char **envp);
-bool file_exists(char *pathname, struct stat *statbuffer);
+int _execute_cmd(char *args, struct stat *statbuf, char **envp);
+bool file_exists(char *pathname, struct stat *statbuf);
+int _putchar(char c);
+void _puts(char *str);
 void errorHandler(pid_t pid);
 
 #endif /*SHELL_H*/
