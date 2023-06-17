@@ -11,49 +11,60 @@
 * the program
 * @argv: argument vector, used to acces individual commandline
 * arguments using index
-* @env: pointerto our defined environment variables
-* Return: integer
+*
+* Return: the last executed command
 */
 
-int main(int argc, char *argv[], char **env)
+int main(int argc, char *argv[])
 {
-char *inputCmd = NULL, *prompt_string = "$";
-size_t inputCmd_size = 0;
-ssize_t bytes;
-pid_t child;
-bool piped = false;
-struct stat statbuffer;
+int rtn_value = 0;
+char *newLine = "\n";
+int return_n;
+int *execRet = &return_n;
+char *prompt_string = "$ ";
 
-while (1 && !piped)
+cmdName = argv[0];
+history = 1;
+aliases = NULL;
+signal(SIGINT, print_prompt);
+
+*execRet = 0;
+envn = envCopy();
+if (!envn)
+exit(-100);
+
+if (argc != 1)
 {
-	if (isatty(STDIN_FILENO) == 0)
-	piped = true;
-	write(STDOUT_FILENO, prompt_string, 2);
-
-	bytes = getline(&inputCmd, &inputCmd, stdin);
-	if (bytes == -1)
-	{
-		perrror("Error (getline)");
-		free(inputCmd);
-		exit(EXIT_FAILURE);
-	}
-
-	if (inputCmd[bytes - 1] == '\n')
-		inputCmd[bytes - 1] = '\0';
-	child = fork();
-	if (child == -1)
-	{
-		perror("Error (fork)");
-		exit(EXIT_FAILURE);
-	}
-	if (child == 0)
-		execute_cmd(buff, &statbuffer, env);
-	if (waitpid(child, &wstatus, 0) == -1)
-	{
-		perror("Error (wait)");
-		exit(EXIT_FAILURE);
-	}
+rtn_value = process_cmd(argv[1], execRet);
+envFree();
+freeAliasList(aliases);
+return (*execRet);
 }
-free(inputCmd);
-return (0);
+
+if (!isatty(STDIN_FILENO))
+{
+while (rtn_value != EOF_CUSTOM && rtn_value != TERMINATE)
+rtn_value = argsHandler(execRet);
+envFree();
+freeAliasList(aliases);
+return (*execRet);
+}
+
+while (1)
+{
+write(STDOUT_FILENO, prompt_string, 2);
+rtn_value = argsHandler(execRet);
+if (rtn_value == EOF_CUSTOM || rtn_value == TERMINATE)
+{
+if (rtn_value == EOF_CUSTOM)
+write(STDOUT_FILENO, newLine, 1);
+envFree();
+freeAliasList(aliases);
+exit(*execRet);
+}
+}
+
+envFree();
+freeAliasList(aliases);
+return (*execRet);
 }
