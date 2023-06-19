@@ -118,5 +118,5 @@ void envHelp(void);
 void setenvHelp(void);
 void unsetenvHelp(void);
 void historyHelp(void);
-
+int error_opening_fn(char *file_path);
 #endif
