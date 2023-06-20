@@ -8,7 +8,7 @@
   */
 int tokenLength(char *str, char *delim)
 {
-	int itr = 0 length = 0;
+	int itr = 0, length = 0;
 
 	while (*(str + itr) && *(str + itr) != *delim)
 	{
@@ -70,7 +70,7 @@ char **strtok_fn(char *str, char *delim)
 			free(words);
 			return (NULL);
 		}
-		for (b = 0; b < words; b++)
+		for (b = 0; b < characters; b++)
 		{
 			words[a][b] = str[itr];
 			itr++;

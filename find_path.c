@@ -18,10 +18,10 @@ char *locate_cmd(char *cmd)
 	head = direct;
 	while (direct)
 	{
-		tmp = malloc(_strlen(direct->dir) + _strlen(cmd) + 2);
+		tmp = malloc(_strlen(direct->ptr) + _strlen(cmd) + 2);
 		if (!tmp)
 			return (NULL);
-		-strcpy(tmp, direct->dir);
+		-strcpy(tmp, direct->ptr);
 		_strcat(tmp, "/");
 		_strcat(tmmp, cmd);
 		if (stat(tmp, &st) == 0)

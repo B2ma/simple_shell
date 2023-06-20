@@ -101,7 +101,7 @@ int argsRunner(char **args, char **first, int *execRet)
   * @execRet: the last executed command parent process return value
   * Return: EOF or -1 or exit value of the last executed command
   */
-int argsHandler(in execRet)
+int argsHandler(int execRet)
 {
 	int retVal = 0, itr;
 	char **args, *line = NULL, **first;

@@ -38,31 +38,31 @@ list_t *locate_dir(char *path);
 
 /**
  * struct builtin_s - A new struct type defining builtin commands.
- * @cmdName: builtin command.
+ * @name: builtin command.
  * @p_cmd_fn: A function pointer to the builtin command's function.
  */
 typedef struct builtin_s
 {
-	char *cmdName;
+	char *name;
 	int (*p_cmd_fn)(char **argv, char **first);
 } builtin_t;
 
 /**
  * struct alias_s - aliases struct.
- * @cmdName: The name of the alias.
- * @cmdValue: The value of the alias.
+ * @name: The name of the alias.
+ * @value: The value of the alias.
  * @next: A pointer to another struct alias_s.
  */
 typedef struct alias_s
 {
-	char *cmdName;
-	char *cmdValue;
+	char *name;
+	char *value;
 	struct alias_s *next;
 } alias_t;
-alias_t *addAliasEnd(alias_t **head, char *cmdName, char *cmdValue);
+alias_t *addAliasEnd(alias_t **head, char *name, char *value);
 void print_prompt(int signal);
 int process_cmd(char file_path, int *execRet);
-void getAlias(char *varName, char *cmdValue);
+void getAlias(char *name, char *value);
 void printAlias(alias_t *aliases);
 ssize_t getline_fn(char **lineptr, size_t *n, FILE *stream);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
@@ -99,9 +99,9 @@ int argsCaller(char **args, char **first, int *execRet);
 int argsRunner(char **args, char **first, int *execRet);
 int argsHandler(int *execRet);
 int argsChecker(char **args);
-void free_args(char **args, char **first);
+void argsFree(char **args, char **first);
 char **aliases_substitute(char **args);
-int (*loacte_builtin(char *cmd))(char **args, char **first);
+int (*locate_custom(char *cmd))(char **args, char **first);
 int custom_exit(char **args, char **first);
 int custom_env(char **args, char __attribute__((__unused__)) **first);
 int custom_setenv(char **args, char __attribute__((__unused__)) **first);
@@ -119,4 +119,16 @@ void setenvHelp(void);
 void unsetenvHelp(void);
 void historyHelp(void);
 int error_opening_fn(char *file_path);
+char *path_filler(char *path);
+char *locate_pid(void);
+char *env_value(char *env_id, int length);
+int tokenLength(char *str, char *delim);
+int tokenCount(char *str, char *delim);
+int _putchar(char c);
+void _puts(char *str);
+void printAlias(alias_t *alias);
+void getAlias(char *name, char *value);
+int length_of_number(int number);
+char *intToStr(int number);
+char
 #endif

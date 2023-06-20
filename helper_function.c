@@ -9,7 +9,7 @@ void free_args(char **args, char **first)
 {
 	size_t itr;
 
-	for (itr = 0; args[itr] || args[itr + i]; itr++)
+	for (itr = 0; args[itr] || args[itr + 1]; itr++)
 		free(args[itr]);
 	free(first);
 }
@@ -98,7 +98,7 @@ void var_substitute(char **args, int execRet)
 	}
 	else if (prev_ln[a + 1] == '?')
 	{
-		substitute = _intToString(*execRet);
+		substitute = intToStr(*execRet);
 		b = a + 2;
 	}
 	else if (pre_ln[a + 1])
