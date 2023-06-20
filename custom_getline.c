@@ -51,35 +51,35 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * assign_lineptr - a function that reassigns the
+ * reassign_fn - a function that reassigns the
  * linepointer variable for getline_fn.
- * @lineptr:  stores an input string.
- * @n: The size of linepointer
- * @buffer: The string to assign to lineptr.
- * @b: The size of buffer.
+ * @str_buff:  stores an input string.
+ * @p_size: The size of linepointer
+ * @newStr: The string to assign to str_buff.
+ * @b_size: The size of new_str.
  * Return: nothing
  */
-void assign_lineptr(char **lineptr, size_t *n, char *buffer, size_t b)
+void reassign_fn(char **str_buff, size_t *p_size, char *newStr, size_t b_size)
 {
-	if (*lineptr == NULL)
+	if (*str_buff == NULL)
 	{
-		if (b > 120)
-			*n = b;
+		if (b_size > 120)
+			*p_size = b_size;
 		else
-			*n = 120;
-		*lineptr = buffer;
+			*p_size = 120;
+		*str_buff = newStr;
 	}
-	else if (*n < b)
+	else if (*p_size < b_size)
 	{
-		if (b > 120)
-			*n = b;
+		if (b_size > 120)
+			*p_size = b_size;
 		else
-			*n = 120;
-		*lineptr = buffer;
+			*p_size = 120;
+		*str_buff = newStr;
 	}
 	else
 	{
-		_strcpy(*lineptr, buffer);
-		free(buffer);
+		_strcpy(*str_buff, newStr);
+		free(newStr);
 	}
 }

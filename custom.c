@@ -1,4 +1,4 @@
-#include "shell"
+#include "shell.h"
 
 /**
 * custom_cd - C function used to changes the current directory
@@ -28,13 +28,13 @@ if (*(args[0]) == '-' || _strcmp(args[0], "--") == 0)
 if ((args[0][1] == '-' && args[0][2] == '\0') ||
 args[0][1] == '\0')
 {
-if (env_get("OLDPWD") != NULL)
-(chdir(*env_get("OLDPWD") + 7));
+if (locate_env("OLDPWD") != NULL)
+(chdir(*locate_env("OLDPWD") + 7));
 }
 else
 {
 free(old_pwd);
-return (make_error(args, 2));
+return (write_error(args, 2));
 }
 }
 else
@@ -45,14 +45,14 @@ chdir(args[0]);
 else
 {
 free(old_pwd);
-return (make_error(args, 2));
+return (write_error(args, 2));
 }
 }
 }
 else
 {
-if (env_get("HOME") != NULL)
-chdir(*(env_get("HOME")) + 5);
+if (locate_env("HOME") != NULL)
+chdir(*(locate_env("HOME")) + 5);
 }
 
 pwd = getcwd(pwd, 0);
@@ -85,13 +85,13 @@ return (0);
 
 
 /**
-* get_custom - used to match a cmd with a corresponing
+* locate_ custom - used to match a cmd with a corresponing
 * custom builtin function
 * @cmd: The command to match.
 *
 * Return: A function pointer to the corresponding builtin.
 */
-int (*get_custom(char *cmd))(char **args, char **first)
+int (*locate_ custom(char *cmd))(char **args, char **first)
 {
 int j;
 
@@ -108,10 +108,10 @@ builtin_t funcs[] = {
 
 for (j = 0; funcs[j].name; j++)
 {
-if (_strcmp(funcs[j].cmdName, cmd) == 0)
+if (_strcmp(funcs[j].name, cmd) == 0)
 break;
 }
-return (funcs[j].f);
+return (funcs[j].p_cmd_fn);
 }
 
 /**
@@ -176,7 +176,7 @@ for (; args[0][j]; j++)
 if (j <= int_len && args[0][j] >= '0' && args[0][j] <= '9')
 number = (number * 10) + (args[0][j] - '0');
 else
-return (make_error(--args, 2));
+return (write_error(--args, 2));
 }
 }
 else
@@ -184,7 +184,7 @@ else
 return (-3);
 }
 if (number > max_num - 1)
-return (make_error(--args, 2));
+return (write_error(--args, 2));
 args -= 1;
 argsFree(args, first);
 envFree();
