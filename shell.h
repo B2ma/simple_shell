@@ -16,12 +16,9 @@
 #include <sys/stat.h>
 
 
-extern char **environ;
-alias_t *aliases;
 #define EOF_CUSTOM -2
-char *cmdName;
+
 #define TERMINATE -3
-int history;
 
 /**
   * struct list_s - A new struct type defining a linked list.
@@ -130,5 +127,10 @@ void printAlias(alias_t *alias);
 void getAlias(char *name, char *value);
 int length_of_number(int number);
 char *intToStr(int number);
-char
+void reassign_fn(char **str_buff, size_t *p_size, char *newStr, size_t b_size);
+ssize_t get_newLength(char *stream);
+bool file_status(char *pathname, struct stat *statbuf);
+void print_prompt(int sgn);
+int error_opening_fn(char *file_path);
+void check_for_ops(char *line, ssize_t *newLength);
 #endif

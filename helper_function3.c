@@ -38,7 +38,7 @@ char *locate_args(char *stream, int execRet)
   */
 int argsCaller(char **args, char first, int *execRet)
 {
-	int retVal, itr;
+	int retVal, itr, conditionMet;
 
 	if (!args[0])
 		return (*execRet);
@@ -46,14 +46,14 @@ int argsCaller(char **args, char first, int *execRet)
 	{
 		if (_strncmp(args[itr], "||", 2) == 0 || _strncmp(args[itr], "&&", 2) == 0)
 		{
-			int conditionMet = (*execRet == (_strncmp(args[itr], "||", 2)
+			conditionMet = (*execRet == (_strncmp(args[itr], "||", 2)
 						== 0) ? 0 : 1);
 
 			free(args[itr]);
 			args[itr] = NULL;
 			args = aliases_substitute(args, first, execRet);
 			retVal = argsRunner(args, first, execRet);
-			if (*execRet != conditionsMet)
+			if (*execRet != conditionMet)
 			{
 				for (itr++; args[itr]; itr++)
 					free(args[itr]);
