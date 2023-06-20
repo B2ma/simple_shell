@@ -75,7 +75,7 @@ return (-1);
 if (args[0] && args[0][0] == '-' && args[0][1] != '-')
 {
 write(STDOUT_FILENO, pwd, _strlen(pwd));
-write(STDOUT_FILENO, new_line, 1);
+write(STDOUT_FILENO, newLine, 1);
 }
 free(old_pwd);
 free(pwd);
@@ -85,13 +85,13 @@ return (0);
 
 
 /**
-* locate_ custom - used to match a cmd with a corresponing
+* locate_custom - used to match a cmd with a corresponing
 * custom builtin function
 * @cmd: The command to match.
 *
 * Return: A function pointer to the corresponding builtin.
 */
-int (*locate_ custom(char *cmd))(char **args, char **first)
+int (*locate_custom(char *cmd))(char **args, char **first)
 {
 int j;
 
@@ -124,6 +124,8 @@ return (funcs[j].p_cmd_fn);
 */
 int custom_help(char **args, char __attribute__((__unused__)) **first)
 {
+char *name;
+
 if (!args[0])
 allHelp();
 else if (_strcmp(args[0], "alias") == 0)
@@ -163,6 +165,7 @@ int custom_exit(char **args, char **first)
 int j;
 int int_len = 10;
 unsigned int number = 0, max_num = 1 << (sizeof(int) * 8 - 1);
+alias_t *aliases;
 
 if (args[0])
 {
