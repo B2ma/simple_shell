@@ -41,7 +41,7 @@ int custom_alias(char **args, char __attribute__((__unused__)) **first)
 				retVal = write_error(args + 1, 1);
 		}
 		else
-			getAlias(args[i], value);
+			getAlias(args[itr], value);
 	}
 	return (retVal);
 }

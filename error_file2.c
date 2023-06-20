@@ -7,6 +7,8 @@
   */
 char *error126(char **args)
 {
+	int history;
+	char *name;
 	char *err_msg, *strHistory;
 	int length;
 
@@ -36,6 +38,8 @@ char *error126(char **args)
   */
 char *error127(char **args)
 {
+	int history;
+	char *name;
 	char *err_msg, *strHistory;
 	int length;
 
@@ -52,7 +56,7 @@ char *error127(char **args)
 	}
 	_strcpy(err_msg, name);
 	_strcat(err_msg, ": ");
-	_strcat(err_msg, hist_str);
+	_strcat(err_msg, strHistory);
 	_strcat(err_msg, ": ");
 	_strcat(err_msg, args[0]);
 	_strcat(err_msg, ": not found\n");

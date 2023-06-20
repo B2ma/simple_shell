@@ -7,6 +7,8 @@
   */
 char *envError(char **args)
 {
+	char *name;
+	int history;
 	char *err_msg, *strHistory;
 	int length;
 
@@ -37,6 +39,7 @@ char *envError(char **args)
   */
 char *error1(char **args)
 {
+	char *name;
 	char *err_msg;
 	int length;
 
@@ -56,6 +59,7 @@ char *error1(char **args)
   */
 char *error2Exit(char **args)
 {
+	int history;
 	char *err_msg, *strHistory;
 	int length;
 
@@ -72,7 +76,7 @@ char *error2Exit(char **args)
 	_strcpy(err_msg, name);
 	_strcat(err_msg, ": ");
 	_strcat(err_msg, strHistory);
-	_strcat(error, ": exit: Illegal number: ");
+	_strcat(err_msg, ": exit: Illegal number: ");
 	_strcat(err_msg, args[0]);
 	_strcat(err_msg, "\n");
 	free(strHistory);
@@ -85,6 +89,8 @@ char *error2Exit(char **args)
   */
 char *error2Cd(char **args)
 {
+	int history;
+	char *name;
 	char *err_msg, *strHistory;
 	int length;
 
@@ -119,6 +125,8 @@ char *error2Cd(char **args)
   */
 char *error2Syntax(char **args)
 {
+	int history;
+	int name;
 	char *err_msg, *strHistory;
 	int length;
 

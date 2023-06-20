@@ -14,16 +14,16 @@ char *locate_cmd(char *cmd)
 	path = locate_env("PATH");
 	if (!path || !(*path))
 		return (NULL);
-	derect = locate_dir(*path + 5);
+	direct = locate_dir(*path + 5);
 	head = direct;
 	while (direct)
 	{
 		tmp = malloc(_strlen(direct->ptr) + _strlen(cmd) + 2);
 		if (!tmp)
 			return (NULL);
-		-strcpy(tmp, direct->ptr);
+		_strcpy(tmp, direct->ptr);
 		_strcat(tmp, "/");
-		_strcat(tmmp, cmd);
+		_strcat(tmp, cmd);
 		if (stat(tmp, &st) == 0)
 		{
 			free_list(head);
@@ -45,7 +45,7 @@ char *path_filler(char *path)
 	int itr, length = 0;
 	char *pathCopy, *pwd;
 
-	pwd = *(locate_evn("PWD")) + 4;
+	pwd = *(locate_env("PWD")) + 4;
 	for (itr = 0; path[itr]; itr++)
 	{
 		if (path[itr] == ':')
@@ -56,7 +56,7 @@ char *path_filler(char *path)
 				length++;
 		}
 		else
-			lenght++;
+			length++;
 	}
 	pathCopy = malloc(sizeof(char) * (length + 1));
 	if (!pathCopy)
@@ -76,7 +76,7 @@ char *path_filler(char *path)
 		}
 		else
 		{
-			_strncat(pathCopy, &path[i], 1);
+			_strncat(pathCopy, &path[itr], 1);
 		}
 	}
 	return (pathCopy);
@@ -89,13 +89,13 @@ char *path_filler(char *path)
 list_t *locate_dir(char *path)
 {
 	int itr;
-	char **direct, *pathCopy
+	char **direct, *pathCopy;
 	list_t *head = NULL;
 
 	pathCopy = path_filler(path);
 	if (!pathCopy)
 		return (NULL);
-	direct = _strtok(pathCopy, ":");
+	direct = strtok_fn(pathCopy, ":");
 	free(pathCopy);
 	if (!direct)
 		return (NULL);
