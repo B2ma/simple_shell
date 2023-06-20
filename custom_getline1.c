@@ -47,7 +47,7 @@ ssize_t getline_fn(char **lineptr, size_t *n, FILE *stream)
 	}
 	buffer[data_input] = '\0';
 
-	assign_lineptr(lineptr, n, buffer, data_input);
+	reassign_fn(lineptr, n, buffer, data_input);
 
 	rtn_value = data_input;
 	if (read_data != 0)
