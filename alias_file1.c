@@ -3,9 +3,10 @@
 /**
   * custom_alias - prints aliases and sets aliases
   * @args: pointer to string arrays
+  * @first: the first argument in args
   * Return: 0, -1 otherwise
   */
-int custom_alias(char **args);
+int custom_alias(char **args, char __attribute__((__unused__)) **first)
 {
 	alias_t *tmp = aliases;
 	int itr, retVal = 0;
@@ -51,6 +52,7 @@ int custom_alias(char **args);
   */
 void getAlias(char *name, char *value)
 {
+	alias_t *aliases;
 	alias_t *tmp = aliases;
 	int length, a, b;
 	char *newVal;
@@ -69,7 +71,7 @@ void getAlias(char *name, char *value)
 	newVal[b] = '\0';
 	while (tmp)
 	{
-		if (_strcmp(name, temp->name) == 0)
+		if (_strcmp(name, tmp->name) == 0)
 		{
 			free(tmp->value);
 			temp->value = newVal;
@@ -105,7 +107,7 @@ void printAlias(alias_t *alias)
   * @args: pointer to arrays of argument strings
   * Return: args
   */
-char **aliasesReplace(char args)
+char **aliasesReplace(char **args)
 {
 	alias_t *tmp;
 	int itr;
@@ -121,12 +123,12 @@ char **aliasesReplace(char args)
 			if (_strcmp(args[itr], tmp->name) == 0)
 			{
 				newVal = malloc(sizeof(char) * (_strlen(tmp->value) + 1));
-				if (!newVal, tmp->value)
+				if (!newVal)
 				{
 					argsFree(args, args);
 					return (NULL);
 				}
-				-strcpy(newVal, tmp->value);
+				_strcpy(newVal, tmp->value);
 				free(args[itr]);
 				args[itr] = newVal;
 				itr--;
