@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * error_opening_fn - a function that prints cant open error
@@ -12,8 +12,10 @@ int error_opening_fn(char *file_path)
 	int length;
 	char *error;
 	char *history_str;
+	int history;
+	char *name;
 
-	history_str = intToString(history);
+	history_str = intToStr(history);
 	if (!history_str)
 		return (127);
 

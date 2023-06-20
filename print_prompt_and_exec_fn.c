@@ -9,7 +9,7 @@ void print_prompt(int sgn)
 char *prompted = "\n$ ";
 
 (void)sgn;
-sgn(SIGINT, print_prompt);
+signal(SIGINT, print_prompt);
 write(STDIN_FILENO, prompted, 3);
 }
 
@@ -28,6 +28,8 @@ int status;
 int flag = 0;
 int rtn_value = 0;
 char *cmd = args[0];
+extern char **envn;
+alias_t *aliases;
 
 if (cmd[0] != '/' && cmd[0] != '.')
 {
@@ -38,9 +40,9 @@ cmd = locate_cmd(cmd);
 if (!cmd || (access(cmd, F_OK) == -1))
 {
 if (errno == EACCES)
-rtn_value = (make_error(args, 126));
+rtn_value = (write_error(args, 126));
 else
-rtn_value = (make_error(args, 127));
+rtn_value = (write_error(args, 127));
 }
 else
 {
@@ -56,7 +58,7 @@ if (child_pid == 0)
 {
 execve(cmd, args, envn);
 if (errno == EACCES)
-rtn_value = (make_error(args, 126));
+rtn_value = (write_error(args, 126));
 envFree();
 argsFree(args, first);
 freeAliasList(aliases);
@@ -72,4 +74,3 @@ if (flag)
 free(cmd);
 return (rtn_value);
 }
-

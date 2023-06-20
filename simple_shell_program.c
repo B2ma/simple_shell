@@ -22,8 +22,11 @@ char *newLine = "\n";
 int return_n;
 int *execRet = &return_n;
 char *prompt_string = "$ ";
+char *name;
+int history;
+alias_t *aliases;
 
-cmdName = argv[0];
+name = argv[0];
 history = 1;
 aliases = NULL;
 signal(SIGINT, print_prompt);

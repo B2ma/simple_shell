@@ -4,12 +4,12 @@
  * addAliasEnd - a function that inserts a node to
  * the end of a alias_t linked list.
  * @head: A pointer to the head of the list_t list.
- * @cmdName: The cmdName of the new alias to be added.
- * @cmdValue: The cmdValue of the new alias to be added.
+ * @name: The name of the new alias to be added.
+ * @value: The value of the new alias to be added.
  * Return: NULL incase of an error.
  * otherwise - a pointer to the new node.
  */
-alias_t *addAliasEnd(alias_t **head, char *cmdName, char *cmdValue)
+alias_t *addAliasEnd(alias_t **head, char *name, char *value)
 {
 	lias_t *tail;
 	alias_t *added_node = malloc(sizeof(alias_t));
@@ -18,14 +18,14 @@ alias_t *addAliasEnd(alias_t **head, char *cmdName, char *cmdValue)
 		return (NULL);
 
 	added_node->next = NULL;
-	added_node->cmdName = malloc(sizeof(char) * (_strlen(cmdName) + 1));
-	if (!added_node->cmdName)
+	added_node->name = malloc(sizeof(char) * (_strlen(name) + 1));
+	if (!added_node->name)
 	{
 		free(added_node);
 		return (NULL);
 	}
-	added_node->cmdValue = cmdValue;
-	_strcpy(added_node->cmdName, cmdName);
+	added_node->value = value;
+	_strcpy(added_node->name, name);
 
 	if (*head)
 	{
@@ -44,11 +44,11 @@ alias_t *addAliasEnd(alias_t **head, char *cmdName, char *cmdValue)
  * add_node_end - a function that insert a node
  * to the end of a list_t linked list.
  * @head: A pointer to the head of the list_t list.
- * @dir: The directory path for the new node to contain.
+ * @ptr: The directory path for the new node to contain.
  * Return: NULL incase of an error.
  * otherwise - a pointer to the new node.
  */
-list_t *add_node_end(list_t **head, char *dir)
+list_t *add_node_end(list_t **head, char *ptr)
 {
 	list_t *added_node = malloc(sizeof(list_t));
 	list_t *tail;
@@ -56,7 +56,7 @@ list_t *add_node_end(list_t **head, char *dir)
 	if (!added_node)
 		return (NULL);
 
-	added_node->dir = dir;
+	added_node->ptr = ptr;
 	added_node->next = NULL;
 
 	if (*head)
@@ -84,8 +84,8 @@ void freeAliasList(alias_t *head)
 	while (head)
 	{
 		next = head->next;
-		free(head->cmdName);
-		free(head->cmdValue);
+		free(head->name);
+		free(head->value);
 		free(head);
 		head = next;
 	}
@@ -102,7 +102,7 @@ void free_list(list_t *head)
 	while (head)
 	{
 		next = head->next;
-		free(head->dir);
+		free(head->ptr);
 		free(head);
 		head = next;
 	}

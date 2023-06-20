@@ -15,8 +15,9 @@ int process_cmd(char *file_path, int *execRet)
 	ssize_t file, bytes_read, m;
 	unsigned int lineLength = 0;
 	int rtn_value;
-	char *line, **args, **front;
+	char *stream, **args, **front;
 	unsigned int oldSize = 120;
+	int history;
 
 	history = 0;
 	file = open(file_path, O_RDONLY);
@@ -25,8 +26,8 @@ int process_cmd(char *file_path, int *execRet)
 		*execRet = error_opening_fn(file_path);
 		return (*execRet);
 	}
-	line = malloc(sizeof(char) * oldSize);
-	if (!line)
+	stream = malloc(sizeof(char) * oldSize);
+	if (!stream)
 		return (-1);
 	do {
 		bytes_read = read(file, buffer, 119);
@@ -34,25 +35,25 @@ int process_cmd(char *file_path, int *execRet)
 			return (*execRet);
 		buffer[bytes_read] = '\0';
 		lineLength += bytes_read;
-		line = _realloc(line, oldSize, lineLength);
-		_strcat(line, buffer);
+		stream = _realloc(stream, oldSize, lineLength);
+		_strcat(stream, buffer);
 		oldSize = lineLength;
 	} while (bytes_read);
-	for (m = 0; line[m] == '\n'; m++)
-		line[m] = ' ';
+	for (m = 0; stream[m] == '\n'; m++)
+		stream[m] = ' ';
 	for (; m < lineLength; m++)
 	{
-		if (line[m] == '\n')
+		if (stream[m] == '\n')
 		{
-			line[m] = ';';
-			for (m += 1; m < lineLength && line[m] == '\n'; m++)
-				line[m] = ' ';
+			stream[m] = ';';
+			for (m += 1; m < lineLength && stream[m] == '\n'; m++)
+				stream[m] = ' ';
 		}
 	}
-	var_substitute(&line, execRet);
-	lineHandler(&line, lineLength);
-	args = _strtok(line, " ");
-	free(line);
+	var_substitute(&stream, execRet);
+	lineHandler(&stream, lineLength);
+	args = _strtok(stream, " ");
+	free(stream);
 	if (!args)
 		return (0);
 	if (argschecker(args) != 0)
