@@ -6,15 +6,16 @@
   * @execRet: last executed command return value
   * Return: stored command pointer, Null otherwise
   */
-char *locate_args(char *stream, int execRet)
+char *locate_args(char *stream, int *execRet)
 {
+	int history;
 	size_t numb = 0;
 	ssize_t read;
 	char *prompt = "$ ";
 
 	if (stream)
 		free(stream);
-	read = getline_fn(&line, &numb, STDIN_FILENO);
+	read = getline_fn(&stream, &numb, STDIN_FILENO);
 	if (read == -1)
 		return (NULL);
 	if (read == 1)
@@ -36,7 +37,7 @@ char *locate_args(char *stream, int execRet)
   * @execRet: the last executed command parent process return value
   * Return: last executed command parent process return value
   */
-int argsCaller(char **args, char first, int *execRet)
+int argsCaller(char **args, char **first, int *execRet)
 {
 	int retVal, itr, conditionMet;
 
@@ -51,7 +52,7 @@ int argsCaller(char **args, char first, int *execRet)
 
 			free(args[itr]);
 			args[itr] = NULL;
-			args = aliases_substitute(args, first, execRet);
+			args = aliases_substitute(args);
 			retVal = argsRunner(args, first, execRet);
 			if (*execRet != conditionMet)
 			{
@@ -76,24 +77,26 @@ int argsCaller(char **args, char first, int *execRet)
   */
 int argsRunner(char **args, char **first, int *execRet)
 {
+	int history;
+	int itr;
 	int retVal;
 	int (*builtin_cmd)(char args, char **first);
 
-	builtin_cmd = locate_builtin(args[0]);
+	builtin_cmd = locate_custom(args[0]);
 	if (builtin_cmd)
 	{
-		retVal = builtin(args + 1, first);
-		if (retVal != EXIT)
+		retVal = builtin_cmd(args + 1, first);
+		if (retVal != TERMINATE)
 			*execRet = retVal;
 	}
 	else
 	{
-		*execRet = execute_fn(args, first);
+		*execRet = execute_cmd(args, first);
 		retVal = *execRet;
 	}
 	history++;
 	for (itr = 0; args[itr]; itr++)
-		free(args[i]);
+		free(args[itr]);
 	return (retVal);
 }
 /**
@@ -101,10 +104,10 @@ int argsRunner(char **args, char **first, int *execRet)
   * @execRet: the last executed command parent process return value
   * Return: EOF or -1 or exit value of the last executed command
   */
-int argsHandler(int execRet)
+int argsHandler(int *execRet)
 {
 	int retVal = 0, itr;
-	char **args, *line = NULL, **first;
+	char **args, *stream = NULL, **first;
 
 	stream = locate_args(stream, execRet);
 	if (!stream)
@@ -116,13 +119,13 @@ int argsHandler(int execRet)
 	if (argsChecker(args) != 0)
 	{
 		*execRet = 2;
-		free_args(args, args);
+		argsFree(args, args);
 		return (*execRet);
 	}
 	first = args;
 	for (itr = 0; args[itr]; itr++)
 	{
-		if (_strncmp(args[itr], ";" 1) == 0)
+		if (_strncmp(args[itr], ";", 1) == 0)
 		{
 			free(args[itr]);
 			args[itr] = NULL;
@@ -154,8 +157,8 @@ int argsChecker(char **args)
 			if (itr == 0 || curr[1] == ';')
 				return (write_error(&args[itr], 2));
 			next = args[itr + 1];
-			if (next && (next[0] == ';') || next[0] == '&' || next[0] == '|')
-				return (wrte_error(&args[itr + 1], 2));
+			if (next && (next[0] == ';' || next[0] == '&' || next[0] == '|'))
+				return (write_error(&args[itr + 1], 2));
 		}
 	}
 	return (0);
