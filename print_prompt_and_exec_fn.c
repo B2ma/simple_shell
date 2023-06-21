@@ -62,7 +62,7 @@ rtn_value = (write_error(args, 126));
 envFree();
 argsFree(args, first);
 freeAliasList(aliases);
-exit_func(rtn_value);
+_exit(rtn_value);
 }
 else
 {
