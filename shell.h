@@ -58,7 +58,7 @@ typedef struct alias_s
 } alias_t;
 alias_t *addAliasEnd(alias_t **head, char *name, char *value);
 void print_prompt(int signal);
-int process_cmd(char file_path, int *execRet);
+int process_cmd(char *file_path, int *execRet);
 void getAlias(char *name, char *value);
 void printAlias(alias_t *aliases);
 ssize_t getline_fn(char **lineptr, size_t *n, FILE *stream);
