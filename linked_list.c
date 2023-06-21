@@ -11,7 +11,7 @@
  */
 alias_t *addAliasEnd(alias_t **head, char *name, char *value)
 {
-	lias_t *tail;
+	alias_t *tail;
 	alias_t *added_node = malloc(sizeof(alias_t));
 
 	if (!added_node)
