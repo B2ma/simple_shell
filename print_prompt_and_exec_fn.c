@@ -1,4 +1,4 @@
-#include "shell"
+#include "shell.h"
 
 /**
 * print_prompt - it prints a new prompt when called
