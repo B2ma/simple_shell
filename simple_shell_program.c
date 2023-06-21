@@ -22,18 +22,15 @@ char *newLine = "\n";
 int return_n;
 int *execRet = &return_n;
 char *prompt_string = "$ ";
-char *name;
-int history;
 alias_t *aliases;
 
-name = argv[0];
-history = 1;
+
 aliases = NULL;
 signal(SIGINT, print_prompt);
 
 *execRet = 0;
-envn = envCopy();
-if (!envn)
+environ = envCopy();
+if (!environ)
 exit(-100);
 
 if (argc != 1)
