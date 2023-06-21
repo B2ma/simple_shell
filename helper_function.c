@@ -40,7 +40,7 @@ char *locate_pid(void)
 		return (NULL);
 	}
 	read(file, buffer, 120);
-	while (buffer[itr] != '')
+	while (buffer[itr] != ' ')
 		itr++;
 	buffer[itr] = '\0';
 
@@ -53,12 +53,12 @@ char *locate_pid(void)
   * @length: env variable length
   * Return: env variable value, NULL otherwise
   */
-char *env_value(char env_id, int length)
+char *env_value(char *env_id, int length)
 {
 	char **variable_addr;
 	char *substitute = NULL, *tmp, *variable;
 
-	*variable = malloc(lenght + 1);
+	*variable = malloc(length + 1);
 	if (!variable)
 		return (NULL);
 	variable[0] = '0';
@@ -82,14 +82,14 @@ char *env_value(char env_id, int length)
   * @args: pointer to argument strings
   * @execRet: pointer to last executed command return value
   */
-void var_substitute(char **args, int execRet)
+void var_substitute(char **stream, int *execRet)
 {
 	int a, b = 0, length;
 	char *substitute = NULL, *prev_ln = *stream, *current_ln;
 
 	for (a = 0; prev_ln[a]; a++)
 	{
-	if (prev_ln[a] == '$' && prev_ln[a + 1] && prev_ln[a + 1] != '')
+	if (prev_ln[a] == '$' && prev_ln[a + 1] && prev_ln[a + 1] != ' ')
 	{
 	if (prev_ln[a + 1] == '$')
 	{
@@ -101,12 +101,12 @@ void var_substitute(char **args, int execRet)
 		substitute = intToStr(*execRet);
 		b = a + 2;
 	}
-	else if (pre_ln[a + 1])
+	else if (prev_ln[a + 1])
 	{
 	for (b = a + 1; prev_ln[b] && prev_ln[b] != '$' && prev_ln[b] != ' '; b++)
 		;
 	length = b - (a + 1);
-	substitute = evn_value(&prev_ln[b] + 1, length);
+	substitute = env_value(&prev_ln[b] + 1, length);
 	}
 	current_ln = malloc(a + _strlen(substitute) + _strlen(&prev_ln[b] + 1));
 	if (!stream)
