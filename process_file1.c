@@ -15,11 +15,9 @@ int process_cmd(char *file_path, int *execRet)
 	ssize_t file, bytes_read, m;
 	unsigned int lineLength = 0;
 	int rtn_value;
-	char *stream, **args, **front;
+	char *stream, **args, **first;
 	unsigned int oldSize = 120;
-	int history;
 
-	history = 0;
 	file = open(file_path, O_RDONLY);
 	if (file == -1)
 	{
@@ -52,11 +50,11 @@ int process_cmd(char *file_path, int *execRet)
 	}
 	var_substitute(&stream, execRet);
 	lineHandler(&stream, lineLength);
-	args = _strtok(stream, " ");
+	args = strtok_fn(stream, " ");
 	free(stream);
 	if (!args)
 		return (0);
-	if (argschecker(args) != 0)
+	if (argsChecker(args) != 0)
 	{
 		*execRet = 2;
 		argsFree(args, args);
