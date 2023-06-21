@@ -8,7 +8,7 @@
   */
 char *locate_args(char *stream, int *execRet)
 {
-	int history;
+	int history = 0;
 	size_t numb = 0;
 	ssize_t read;
 	char *prompt = "$ ";
@@ -77,10 +77,10 @@ int argsCaller(char **args, char **first, int *execRet)
   */
 int argsRunner(char **args, char **first, int *execRet)
 {
-	int history;
+	int history = 0;
 	int itr;
 	int retVal;
-	int (*builtin_cmd)(char args, char **first);
+	int (*builtin_cmd)(char **args, char **first);
 
 	builtin_cmd = locate_custom(args[0]);
 	if (builtin_cmd)

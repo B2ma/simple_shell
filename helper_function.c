@@ -58,7 +58,7 @@ char *env_value(char *env_id, int length)
 	char **variable_addr;
 	char *substitute = NULL, *tmp, *variable;
 
-	*variable = malloc(length + 1);
+	variable = malloc(length + 1);
 	if (!variable)
 		return (NULL);
 	variable[0] = '0';

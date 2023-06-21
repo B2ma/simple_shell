@@ -126,7 +126,7 @@ char *error2Cd(char **args)
 char *error2Syntax(char **args)
 {
 	int history;
-	int name;
+	char *name;
 	char *err_msg, *strHistory;
 	int length;
 
