@@ -12,7 +12,7 @@ int error_opening_fn(char *file_path)
 	int length;
 	char *error;
 	char *history_str;
-	int history;
+	int history = 0;
 	char *name;
 
 	history_str = intToStr(history);
