@@ -8,13 +8,16 @@
   */
 char *locate_args(char *stream, int *execRet)
 {
-	int history = 0;
+	int history = 1;
 	size_t numb = 0;
 	ssize_t read;
 	char *prompt = "$ ";
 
 	if (stream)
+	{
 		free(stream);
+		stream = NULL;
+	}
 	read = getline_fn(&stream, &numb, STDIN_FILENO);
 	if (read == -1)
 		return (NULL);
@@ -31,44 +34,6 @@ char *locate_args(char *stream, int *execRet)
 	return (stream);
 }
 /**
-  * argsCaller - separates operators from commands and calls them.
-  * @args: pointer to argument strings
-  * @first: the first argument in the list
-  * @execRet: the last executed command parent process return value
-  * Return: last executed command parent process return value
-  */
-int argsCaller(char **args, char **first, int *execRet)
-{
-	int retVal, itr, conditionMet;
-
-	if (!args[0])
-		return (*execRet);
-	for (itr = 0; args[itr]; itr++)
-	{
-		if (_strncmp(args[itr], "||", 2) == 0 || _strncmp(args[itr], "&&", 2) == 0)
-		{
-			conditionMet = (*execRet == (_strncmp(args[itr], "||", 2)
-						== 0) ? 0 : 1);
-
-			free(args[itr]);
-			args[itr] = NULL;
-			args = aliases_substitute(args);
-			retVal = argsRunner(args, first, execRet);
-			if (*execRet != conditionMet)
-			{
-				for (itr++; args[itr]; itr++)
-					free(args[itr]);
-				return (retVal);
-			}
-			args = &args[++itr];
-			itr = -1;
-		}
-	}
-	args = aliases_substitute(args);
-	retVal = argsRunner(args, first, execRet);
-	return (retVal);
-}
-/**
   * argsRunner - does command execution calls
   * @args: pointer to argument strings
   * @first: The first string argument
@@ -77,7 +42,7 @@ int argsCaller(char **args, char **first, int *execRet)
   */
 int argsRunner(char **args, char **first, int *execRet)
 {
-	int history = 0;
+	int history = 1;
 	int itr;
 	int retVal;
 	int (*builtin_cmd)(char **args, char **first);

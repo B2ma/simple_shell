@@ -7,9 +7,9 @@
   */
 char *error126(char **args)
 {
-	int history;
-	char *name;
+	int history = 1;
 	char *err_msg, *strHistory;
+	char *name = "./hsh";
 	int length;
 
 	strHistory = intToStr(history);
@@ -38,8 +38,8 @@ char *error126(char **args)
   */
 char *error127(char **args)
 {
-	int history;
-	char *name;
+	int history = 1;
+	char *name = "./hsh";
 	char *err_msg, *strHistory;
 	int length;
 
@@ -47,7 +47,6 @@ char *error127(char **args)
 	if (!strHistory)
 		return (NULL);
 	length = _strlen(name) + _strlen(strHistory) + _strlen(args[0]) + 16;
-	err_msg = malloc(sizeof(char) * (length + 1));
 	err_msg = malloc(sizeof(char) * (length + 1));
 	if (!err_msg)
 	{

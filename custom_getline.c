@@ -34,7 +34,7 @@ return (NULL);
 }
 
 temp = ptr;
-memory = malloc(sizeof(*temp) * new_size);
+memory = malloc(new_size);
 if (memory == NULL)
 {
 free(ptr);
@@ -75,7 +75,11 @@ if (b_size > 120)
 *p_size = b_size;
 else
 *p_size = 120;
+if (*str_buff != newStr)
+{
+free(*str_buff);
 *str_buff = newStr;
+}
 }
 else
 {

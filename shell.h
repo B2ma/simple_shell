@@ -19,6 +19,9 @@
 #define EOF_CUSTOM -2
 
 #define TERMINATE -3
+extern char **environ;
+char *name;
+int history;
 
 /**
   * struct list_s - A new struct type defining a linked list.
@@ -56,6 +59,7 @@ typedef struct alias_s
 	char *value;
 	struct alias_s *next;
 } alias_t;
+alias_t *aliases;
 alias_t *addAliasEnd(alias_t **head, char *name, char *value);
 void print_prompt(int signal);
 int process_cmd(char *file_path, int *execRet);
@@ -66,7 +70,6 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char **strtok_fn(char *line, char *delim);
 char *locate_cmd(char *cmd);
 int execute_cmd(char **args, char **first);
-void free_list(list_t *head);
 int write_error(char **args, int err);
 char *envError(char **args);
 char *error1(char **args);
@@ -94,6 +97,7 @@ char **locate_env(const char *variable);
 int _strncmp(const char *s1, const char *s2, size_t n);
 int argsCaller(char **args, char **first, int *execRet);
 int argsRunner(char **args, char **first, int *execRet);
+char **aliasesReplace(char **args);
 int argsHandler(int *execRet);
 int argsChecker(char **args);
 void argsFree(char **args, char **first);
@@ -123,8 +127,6 @@ int tokenLength(char *str, char *delim);
 int tokenCount(char *str, char *delim);
 int _putchar(char c);
 void _puts(char *str);
-void printAlias(alias_t *alias);
-void getAlias(char *name, char *value);
 int length_of_number(int number);
 char *intToStr(int number);
 void reassign_fn(char **str_buff, size_t *p_size, char *newStr, size_t b_size);

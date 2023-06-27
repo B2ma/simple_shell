@@ -1,26 +1,18 @@
 #include "shell.h"
-
 /**
-* custom_cd - C function used to changes the current directory
-* of custom process.
+* custom_cd - changes the current directory of custom process.
 * @args: An array of arguments.
 * @first: A double pointer to the beginning of args.
-* Return: -2 if the string isn't a directory.
-* -1 inase of an error.
-* 0 otherwise.
+* Return: -2 if the string isn't a directory -1 if error, 0 ow.
 */
 int custom_cd(char **args, char __attribute__((__unused__)) **first)
 {
-char *pwd = NULL;
-char **dirStatus;
-char *newLine = "\n";
-char *old_pwd = NULL;
+char *pwd = NULL, **dirStatus, *newLine = "\n", *old_pwd = NULL;
 struct stat dir;
 
 old_pwd = getcwd(old_pwd, 0);
 if (!old_pwd)
 return (-1);
-
 if (args[0])
 {
 if (*(args[0]) == '-' || _strcmp(args[0], "--") == 0)
@@ -54,22 +46,16 @@ else
 if (locate_env("HOME") != NULL)
 chdir(*(locate_env("HOME")) + 5);
 }
-
 pwd = getcwd(pwd, 0);
 if (!pwd)
 return (-1);
-
 dirStatus = malloc(sizeof(char *) * 2);
 if (!dirStatus)
 return (-1);
-
-dirStatus[0] = "OLDPWD";
-dirStatus[1] = old_pwd;
+dirStatus[0] = "OLDPWD", dirStatus[1] = old_pwd;
 if (custom_setenv(dirStatus, dirStatus) == -1)
 return (-1);
-
-dirStatus[0] = "PWD";
-dirStatus[1] = pwd;
+dirStatus[0] = "PWD", dirStatus[1] = pwd;
 if (custom_setenv(dirStatus, dirStatus) == -1)
 return (-1);
 if (args[0] && args[0][0] == '-' && args[0][1] != '-')
@@ -77,13 +63,9 @@ if (args[0] && args[0][0] == '-' && args[0][1] != '-')
 write(STDOUT_FILENO, pwd, _strlen(pwd));
 write(STDOUT_FILENO, newLine, 1);
 }
-free(old_pwd);
-free(pwd);
-free(dirStatus);
+free(old_pwd), free(pwd), free(dirStatus);
 return (0);
 }
-
-
 /**
 * locate_custom - used to match a cmd with a corresponing
 * custom builtin function
@@ -124,8 +106,6 @@ return (funcs[j].p_cmd_fn);
 */
 int custom_help(char **args, char __attribute__((__unused__)) **first)
 {
-char *name;
-
 if (!args[0])
 allHelp();
 else if (_strcmp(args[0], "alias") == 0)
@@ -143,29 +123,25 @@ unsetenvHelp();
 else if (_strcmp(args[0], "help") == 0)
 helpHelp();
 else
-write(STDERR_FILENO, name, _strlen(name));
+write(STDERR_FILENO, args[0], _strlen(args[0]));
 
 return (0);
 }
 
 /**
-* custom_exit - Causes normal process termination
-*                for the shellby shell.
+* custom_exit - Causes normal process termination for the shell.
 * @args: An array of arguments containing the exit value.
 * @first: A double pointer to the beginning of args.
-*
 * Return: If there are no arguments - -3.
 *         If the given exit value is invalid - 2.
 *         O/w - exits with the given status value.
-*
 * Description: Upon returning -3, the program exits back in the main function.
 */
 int custom_exit(char **args, char **first)
 {
-int j;
+int j = 0;
 int int_len = 10;
 unsigned int number = 0, max_num = 1 << (sizeof(int) * 8 - 1);
-alias_t *aliases;
 
 if (args[0])
 {

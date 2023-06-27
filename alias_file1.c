@@ -8,7 +8,6 @@
   */
 int custom_alias(char **args, char __attribute__((__unused__)) **first)
 {
-	alias_t *aliases;
 	alias_t *tmp = aliases;
 	int itr, retVal = 0;
 	char *value;
@@ -53,7 +52,6 @@ int custom_alias(char **args, char __attribute__((__unused__)) **first)
   */
 void getAlias(char *name, char *value)
 {
-	alias_t *aliases;
 	alias_t *tmp = aliases;
 	int length, a, b;
 	char *newVal;
@@ -82,6 +80,8 @@ void getAlias(char *name, char *value)
 	}
 	if (!tmp)
 		addAliasEnd(&aliases, name, value);
+	else
+		free(newVal);
 }
 
 /**
@@ -110,7 +110,6 @@ void printAlias(alias_t *alias)
   */
 char **aliasesReplace(char **args)
 {
-	alias_t *aliases;
 	alias_t *tmp;
 	int itr;
 	char *newVal;

@@ -49,10 +49,14 @@ char *_strcat(char *dest, const char *src)
 	temporary_src =  src;
 
 	while (*temporary_dest != '\0')
+	{
 		temporary_dest++;
+	}
 
 	while (*temporary_src != '\0')
+	{
 		*temporary_dest++ = *temporary_src++;
+	}
 	*temporary_dest = '\0';
 	return (dest);
 }

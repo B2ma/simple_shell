@@ -1,14 +1,10 @@
 #include "shell.h"
-
 /**
-* get_newLength - a function that gets the new line size. The line
-* is divided by ";", "||", "&&&", or "#".
+* get_newLength - gets the new line size,divided by ";", "||", "&&&", or "#".
 * @stream: the line to be checked
 * Return: size of new line
-* Description:the function cuts short lines containing '#'
-* comments with '\0'.
+* Description: cuts short lines containing '#'* comments with '\0'.
 */
-
 ssize_t get_newLength(char *stream)
 {
 size_t m;
@@ -17,8 +13,7 @@ ssize_t newLength = 0;
 
 for (m = 0; stream[m]; m++)
 {
-present = stream[m];
-new = stream[m + 1];
+present = stream[m], new = stream[m + 1];
 if (present == '#')
 {
 if (m == 0 || stream[m - 1] == ' ')

@@ -13,7 +13,7 @@ int error_opening_fn(char *file_path)
 	char *error;
 	char *history_str;
 	int history = 0;
-	char *name;
+	char *name = "./hsh";
 
 	history_str = intToStr(history);
 	if (!history_str)

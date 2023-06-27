@@ -7,10 +7,10 @@
   */
 char *envError(char **args)
 {
-	char *name;
-	int history;
+	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
+	char *name = NULL;
 
 	strHistory = intToStr(history);
 	if (!strHistory)
@@ -39,8 +39,8 @@ char *envError(char **args)
   */
 char *error1(char **args)
 {
-	char *name;
 	char *err_msg;
+	char *name = NULL;
 	int length;
 
 	length = _strlen(name) + _strlen(args[0] + 13);
@@ -48,7 +48,7 @@ char *error1(char **args)
 	if (!err_msg)
 		return (err_msg);
 	_strcpy(err_msg, "alias: ");
-	_strcat(err_msg, args[0]);
+	_strcat(err_msg, name);
 	_strcat(err_msg, " not found\n");
 	return (err_msg);
 }
@@ -59,9 +59,10 @@ char *error1(char **args)
   */
 char *error2Exit(char **args)
 {
-	int history;
+	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
+	char *name = NULL;
 
 	strHistory = intToStr(history);
 	if (!strHistory)
@@ -89,10 +90,10 @@ char *error2Exit(char **args)
   */
 char *error2Cd(char **args)
 {
-	int history;
-	char *name;
+	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
+	char *name = NULL;
 
 	strHistory = intToStr(history);
 	if (!strHistory)
@@ -106,14 +107,14 @@ char *error2Cd(char **args)
 		free(strHistory);
 		return (NULL);
 	}
-	_strcpy(err_msg, name);
+	_strcpy(err_msg, args[0]);
 	_strcat(err_msg, ": ");
 	_strcat(err_msg, strHistory);
 	if (args[0][0] == '-')
 		_strcat(err_msg, ": : cd: Illegal option ");
 	else
 		_strcat(err_msg, ": cd: can't cd to ");
-	_strcat(err_msg, args[0]);
+	_strcat(err_msg, name);
 	_strcat(err_msg, "\n");
 	free(strHistory);
 	return (err_msg);
@@ -125,10 +126,10 @@ char *error2Cd(char **args)
   */
 char *error2Syntax(char **args)
 {
-	int history;
-	char *name;
+	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
+	char *name = NULL;
 
 	strHistory = intToStr(history);
 	if (!strHistory)

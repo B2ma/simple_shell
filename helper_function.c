@@ -1,15 +1,15 @@
 #include "shell.h"
 
 /**
-  * free_args - frees args memory
+  * argsFree - frees args memory
   * @args: pointer to argument strings
   * @first: The first argument
   */
-void free_args(char **args, char **first)
+void argsFree(char **args, char **first)
 {
 	size_t itr;
 
-	for (itr = 0; args[itr] || args[itr + 1]; itr++)
+	for (itr = 0; args[itr]; itr++)
 		free(args[itr]);
 	free(first);
 }
@@ -64,29 +64,33 @@ char *env_value(char *env_id, int length)
 	variable[0] = '0';
 	_strncat(variable, env_id, length);
 	variable_addr = locate_env(variable);
-	free(variable);
 	if (variable_addr)
 	{
 		tmp = *variable_addr;
 		while (*tmp != '=')
 			tmp++;
 		tmp++;
-		substitute = malloc(_strlen(tmp) + 1);
-		if (substitute)
-			_strcpy(substitute, tmp);
+		if (*tmp)
+		{
+			substitute = malloc(_strlen(tmp) + 1);
+			if (substitute)
+				_strcpy(substitute, tmp);
+		}
 	}
+	free(variable);
 	return (substitute);
 }
 /**
   * var_substitute - does variable replacement
-  * @args: pointer to argument strings
+  * @stream: pointer to input strings
   * @execRet: pointer to last executed command return value
   */
 void var_substitute(char **stream, int *execRet)
 {
 	int a, b = 0, length;
-	char *substitute = NULL, *prev_ln = *stream, *current_ln;
+	char *substitute = NULL, *prev_ln = NULL, *current_ln;
 
+	prev_ln = *stream;
 	for (a = 0; prev_ln[a]; a++)
 	{
 	if (prev_ln[a] == '$' && prev_ln[a + 1] && prev_ln[a + 1] != ' ')
@@ -98,20 +102,20 @@ void var_substitute(char **stream, int *execRet)
 	}
 	else if (prev_ln[a + 1] == '?')
 	{
-		substitute = intToStr(*execRet);
-		b = a + 2;
+		substitute = intToStr(*execRet), b = a + 2;
 	}
 	else if (prev_ln[a + 1])
 	{
 	for (b = a + 1; prev_ln[b] && prev_ln[b] != '$' && prev_ln[b] != ' '; b++)
 		;
 	length = b - (a + 1);
-	substitute = env_value(&prev_ln[b] + 1, length);
+	substitute = env_value(&prev_ln[a + 1], length);
 	}
 	current_ln = malloc(a + _strlen(substitute) + _strlen(&prev_ln[b] + 1));
-	if (!stream)
+	if (!current_ln)
 		return;
-	current_ln[0] = '0';
+	current_ln[0] = '\0';
+	_strncat(current_ln, prev_ln, a);
 	if (substitute)
 	{
 		_strcat(current_ln, substitute);
@@ -120,8 +124,7 @@ void var_substitute(char **stream, int *execRet)
 	}
 	_strcat(current_ln, &prev_ln[b]);
 	free(prev_ln);
-	*stream = prev_ln = current_ln;
-	a = -1;
+	*stream = prev_ln = current_ln, a = -1;
 	}
 	}
 }
