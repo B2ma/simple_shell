@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 int rtn_value = 0, return_n, *execRet = &return_n;
 char *newLine = "\n", *prompt_string = "$ ";
 
-name = argv[0], history = 1, aliases = NULL;
+aliases = NULL;
 signal(SIGINT, print_prompt);
 *execRet = 0;
 environ = envCopy();

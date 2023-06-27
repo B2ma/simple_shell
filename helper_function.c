@@ -61,10 +61,10 @@ char *env_value(char *env_id, int length)
 	variable = malloc(length + 1);
 	if (!variable)
 		return (NULL);
-	variable[0] = '0';
+	variable[0] = '\0';
 	_strncat(variable, env_id, length);
 	variable_addr = locate_env(variable);
-	if (variable_addr)
+	if (variable_addr != NULL)
 	{
 		tmp = *variable_addr;
 		while (*tmp != '=')
@@ -111,7 +111,7 @@ void var_substitute(char **stream, int *execRet)
 	length = b - (a + 1);
 	substitute = env_value(&prev_ln[a + 1], length);
 	}
-	current_ln = malloc(a + _strlen(substitute) + _strlen(&prev_ln[b] + 1));
+	current_ln = malloc(a + _strlen(substitute) + _strlen(&prev_ln[b]) + 1);
 	if (!current_ln)
 		return;
 	current_ln[0] = '\0';

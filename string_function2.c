@@ -10,10 +10,10 @@ int _strlen(const char *s)
 {
 	int str_length = 0;
 
-	if (!s)
-		return (str_length);
-	for (str_length = 0; s[str_length]; str_length++)
-		;
+	if (s == NULL)
+		return(0);
+	while (s[str_length] != '\0')
+		str_length++;
 	return (str_length);
 }
 

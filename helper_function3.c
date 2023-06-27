@@ -8,7 +8,7 @@
   */
 char *locate_args(char *stream, int *execRet)
 {
-	int history = 1;
+	int history = 0;
 	size_t numb = 0;
 	ssize_t read;
 	char *prompt = "$ ";
@@ -16,7 +16,6 @@ char *locate_args(char *stream, int *execRet)
 	if (stream)
 	{
 		free(stream);
-		stream = NULL;
 	}
 	read = getline_fn(&stream, &numb, STDIN_FILENO);
 	if (read == -1)
@@ -42,7 +41,7 @@ char *locate_args(char *stream, int *execRet)
   */
 int argsRunner(char **args, char **first, int *execRet)
 {
-	int history = 1;
+	int history = 0;
 	int itr;
 	int retVal;
 	int (*builtin_cmd)(char **args, char **first);

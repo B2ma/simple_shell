@@ -59,6 +59,6 @@ int process_cmd(char *file_path, int *execRet)
 			rtn_value = argsCaller(args, first, execRet), args = &args[++m], m = 0;
 		}
 	}
-	rtn_value = argsCaller(args, first, execRet), argsFree(args, first);
+	rtn_value = argsCaller(args, first, execRet), free(first);
 	return (rtn_value);
 }

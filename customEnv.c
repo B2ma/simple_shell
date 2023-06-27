@@ -70,7 +70,7 @@ return (write_error(args, -1));
 }
 for (index = 0; environ[index]; index++)
 newEnvn[index] = environ[index];
-newEnvn[index++] =newVal;
+newEnvn[index++] = newVal;
 newEnvn[index] = NULL;
 free(environ);
 return (0);
