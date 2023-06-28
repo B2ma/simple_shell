@@ -9,7 +9,7 @@ char *error126(char **args)
 {
 	int history = 1;
 	char *err_msg, *strHistory;
-	char *name = "./hsh";
+	char *name = "MyShell";
 	int length;
 
 	strHistory = intToStr(history);
@@ -39,7 +39,7 @@ char *error126(char **args)
 char *error127(char **args)
 {
 	int history = 1;
-	char *name = "./hsh";
+	char *name = "MyShell";
 	char *err_msg, *strHistory;
 	int length;
 

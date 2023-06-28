@@ -11,7 +11,7 @@ int _strlen(const char *s)
 	int str_length = 0;
 
 	if (s == NULL)
-		return(0);
+		return (0);
 	while (s[str_length] != '\0')
 		str_length++;
 	return (str_length);
