@@ -73,6 +73,7 @@ newEnvn[index] = environ[index];
 newEnvn[index++] = newVal;
 newEnvn[index] = NULL;
 free(environ);
+environ = newEnvn;
 return (0);
 }
 
