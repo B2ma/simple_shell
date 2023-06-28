@@ -20,8 +20,6 @@
 
 #define TERMINATE -3
 extern char **environ;
-/*char *name;*/
-/*int history;*/
 
 /**
   * struct list_s - A new struct type defining a linked list.
