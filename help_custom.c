@@ -5,7 +5,7 @@
   */
 void allHelp(void)
 {
-	char *stream = "Shellby\nThese shell commands are defined internally.\n";
+	char *stream = "Simpl_shell\nThese shell commands are defined internally.\n";
 
 	write(STDOUT_FILENO, stream, _strlen(stream));
 	stream = "Type 'help' to see this list.\nType 'help name' to find ";

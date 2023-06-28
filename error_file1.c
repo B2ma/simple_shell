@@ -10,7 +10,7 @@ char *envError(char **args)
 	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
-	char *name = NULL;
+	char *name = "./hsh";
 
 	strHistory = intToStr(history);
 	if (!strHistory)
@@ -40,7 +40,7 @@ char *envError(char **args)
 char *error1(char **args)
 {
 	char *err_msg;
-	char *name = NULL;
+	char *name = "./hsh";
 	int length;
 
 	length = _strlen(name) + _strlen(args[0] + 13);
@@ -62,7 +62,7 @@ char *error2Exit(char **args)
 	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
-	char *name = NULL;
+	char *name = "./hsh"
 
 	strHistory = intToStr(history);
 	if (!strHistory)
@@ -93,7 +93,7 @@ char *error2Cd(char **args)
 	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
-	char *name = NULL;
+	char *name = "./hsh";
 
 	strHistory = intToStr(history);
 	if (!strHistory)
@@ -129,7 +129,7 @@ char *error2Syntax(char **args)
 	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
-	char *name = NULL;
+	char *name = "./hsh";
 
 	strHistory = intToStr(history);
 	if (!strHistory)

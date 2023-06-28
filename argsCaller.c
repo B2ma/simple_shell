@@ -42,7 +42,9 @@ else
 for (itr++; args[itr]; itr++)
 free(args[itr]);
 return (retVal);
-}}}
+}
+}
+}
 args = aliasesReplace(args), retVal = argsRunner(args, first, execRet);
 return (retVal);
 }
