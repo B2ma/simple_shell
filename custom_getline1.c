@@ -1,5 +1,4 @@
 #include "shell.h"
-
 /**
  * getline_fn - a function that reads data_input from a stream.
  * @lineptr: used to store the read data_input data
@@ -14,17 +13,14 @@ ssize_t getline_fn(char **lineptr, size_t *n, FILE *stream)
 	int read_data;
 	ssize_t rtn_value;
 
-
 	if (data_input == 0)
 		fflush(stream);
 	else
 		return (-1);
 	data_input = 0;
-
 	buffer = malloc(sizeof(char) * 120);
 	if (!buffer)
 		return (-1);
-
 	while (character != '\n')
 	{
 		read_data = read(STDIN_FILENO, &character, 1);
@@ -41,14 +37,11 @@ ssize_t getline_fn(char **lineptr, size_t *n, FILE *stream)
 
 		if (data_input >= 120)
 			buffer = _realloc(buffer, data_input, data_input + 1);
-
 		buffer[data_input] = character;
 		data_input++;
 	}
 	buffer[data_input] = '\0';
-
-	assign_lineptr(lineptr, n, buffer, data_input);
-
+	reassign_fn(lineptr, n, buffer, data_input);
 	rtn_value = data_input;
 	if (read_data != 0)
 		data_input = 0;

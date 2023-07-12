@@ -7,21 +7,23 @@
   */
 char *envError(char **args)
 {
+	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
+	char *name = "MyShell";
 
-	strHistory = _itoa(history);
+	strHistory = intToStr(history);
 	if (!strHistory)
 		return (NULL);
 	args--;
-	length = _strlen(cmdName) + _strlen(strHistory) + _strlen(args[0]) + 45;
+	length = _strlen(name) + _strlen(strHistory) + _strlen(args[0]) + 45;
 	err_msg = malloc(sizeof(char) * (length + 1));
 	if (!err_msg)
 	{
 		free(strHistory);
 		return (NULL);
 	}
-	_strcpy(err_msg, cmdName);
+	_strcpy(err_msg, name);
 	_strcat(err_msg, ": ");
 	_strcat(err_msg, strHistory);
 	_strcat(err_msg, ": ");
@@ -38,14 +40,15 @@ char *envError(char **args)
 char *error1(char **args)
 {
 	char *err_msg;
+	char *name = "MyShell";
 	int length;
 
-	length = _strlen(cmdName) + _strlen(args[0] + 13);
+	length = _strlen(name) + _strlen(args[0] + 13);
 	err_msg = malloc(sizeof(char) * (length + 1));
 	if (!err_msg)
 		return (err_msg);
 	_strcpy(err_msg, "alias: ");
-	_strcat(err_msg, args[0]);
+	_strcat(err_msg, name);
 	_strcat(err_msg, " not found\n");
 	return (err_msg);
 }
@@ -56,23 +59,25 @@ char *error1(char **args)
   */
 char *error2Exit(char **args)
 {
+	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
+	char *name = "MyShell";
 
-	strHistory = _itoa(history);
+	strHistory = intToStr(history);
 	if (!strHistory)
 		return (NULL);
-	length = _strlen(cmdName) + _strlen(strHistory) + _strlen(args[0]) + 27;
+	length = _strlen(name) + _strlen(strHistory) + _strlen(args[0]) + 27;
 	err_msg = malloc(sizeof(char) * (length + 1));
 	if (!err_msg)
 	{
 		free(strHistory);
 		return (NULL);
 	}
-	_strcpy(err_msg, cmdName);
+	_strcpy(err_msg, name);
 	_strcat(err_msg, ": ");
 	_strcat(err_msg, strHistory);
-	_strcat(error, ": exit: Illegal number: ");
+	_strcat(err_msg, ": exit: Illegal number: ");
 	_strcat(err_msg, args[0]);
 	_strcat(err_msg, "\n");
 	free(strHistory);
@@ -85,29 +90,31 @@ char *error2Exit(char **args)
   */
 char *error2Cd(char **args)
 {
+	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
+	char *name = "MyShell";
 
-	strHistory = _itoa(history);
+	strHistory = intToStr(history);
 	if (!strHistory)
 		return (NULL);
 	if (args[0][0] == '-')
 		args[0][2] = '\0';
-	length = _strlen(cmdName) + _strlen(strHistory) + _strlen(args[0]) + 24;
+	length = _strlen(name) + _strlen(strHistory) + _strlen(args[0]) + 24;
 	err_msg = malloc(sizeof(char) * (length + 1));
 	if (!err_msg)
 	{
 		free(strHistory);
 		return (NULL);
 	}
-	_strcpy(err_msg, cmdName);
+	_strcpy(err_msg, args[0]);
 	_strcat(err_msg, ": ");
 	_strcat(err_msg, strHistory);
 	if (args[0][0] == '-')
 		_strcat(err_msg, ": : cd: Illegal option ");
 	else
 		_strcat(err_msg, ": cd: can't cd to ");
-	_strcat(err_msg, args[0]);
+	_strcat(err_msg, name);
 	_strcat(err_msg, "\n");
 	free(strHistory);
 	return (err_msg);
@@ -119,20 +126,22 @@ char *error2Cd(char **args)
   */
 char *error2Syntax(char **args)
 {
+	int history = 1;
 	char *err_msg, *strHistory;
 	int length;
+	char *name = "MyShell";
 
-	strHistory = _itoa(history);
+	strHistory = intToStr(history);
 	if (!strHistory)
 		return (NULL);
-	length = _strlen(cmdName) + _strlen(strHistory) + _strlen(args[0]) + 33;
+	length = _strlen(name) + _strlen(strHistory) + _strlen(args[0]) + 33;
 	err_msg = malloc(sizeof(char) * (length + 1));
 	if (!err_msg)
 	{
 		free(strHistory);
 		return (NULL);
 	}
-	_strcpy(err_msg, cmdName);
+	_strcpy(err_msg, name);
 	_strcat(err_msg, ": ");
 	_strcat(err_msg, strHistory);
 	_strcat(err_msg, ": Syntax error: \"");

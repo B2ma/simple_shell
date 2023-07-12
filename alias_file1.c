@@ -3,13 +3,14 @@
 /**
   * custom_alias - prints aliases and sets aliases
   * @args: pointer to string arrays
+  * @first: the first argument in args
   * Return: 0, -1 otherwise
   */
-int custom_alias(char **args);
+int custom_alias(char **args, char __attribute__((__unused__)) **first)
 {
 	alias_t *tmp = aliases;
 	int itr, retVal = 0;
-	char *cmdValue;
+	char *value;
 
 	if (!args[0])
 	{
@@ -23,12 +24,12 @@ int custom_alias(char **args);
 	for (itr = 0; args[itr]; itr++)
 	{
 		tmp = aliases;
-		cmdValue = _strchr(args[itr], '=');
-		if (!cmdValue)
+		value = _strchr(args[itr], '=');
+		if (!value)
 		{
 			while (tmp)
 			{
-				if (_strcmp(args[i], tmp->cmdName) == 0)
+				if (_strcmp(args[itr], tmp->name) == 0)
 				{
 					printAlias(tmp);
 					break;
@@ -36,49 +37,51 @@ int custom_alias(char **args);
 				tmp = tmp->next;
 			}
 			if (!tmp)
-				retVal = write_error(args + i, 1);
+				retVal = write_error(args + 1, 1);
 		}
 		else
-			getAlias(args[i], cmdValue);
+			getAlias(args[itr], value);
 	}
 	return (retVal);
 }
 /**
   * getAlias - sets new command name and value
   *	changes value of existing command
-  * @varName: name of the aliase command
-  * @cmdValue: Alias Value
+  * @name: name of the aliase command
+  * @value: Alias Value
   */
-void getAlias(char *varName, char *cmdValue)
+void getAlias(char *name, char *value)
 {
 	alias_t *tmp = aliases;
 	int length, a, b;
 	char *newVal;
 
-	*cmdValue = '\0';
-	cmdValue++;
-	length = _strlen(cmdValue) - _strspn(cmdvalue, "'\"");
+	*value = '\0';
+	value++;
+	length = _strlen(value) - _strspn(value, "'\"");
 	newVal = malloc(sizeof(char) * (length + 1));
 	if (!newVal)
 		return;
-	for (a = 0, b = 0; cmdValue[a]; a++)
+	for (a = 0, b = 0; value[a]; a++)
 	{
-		if (cmdValue[a] != '\'' && cmdValue[a] != '"')
-			newVal[b++] = cmdValue[a];
+		if (value[a] != '\'' && value[a] != '"')
+			newVal[b++] = value[a];
 	}
 	newVal[b] = '\0';
 	while (tmp)
 	{
-		if (_strcmp(varName, temp->cmdName) == 0)
+		if (_strcmp(name, tmp->name) == 0)
 		{
-			free(tmp->cmdvalue);
-			temp->cmdValue = newVal;
+			free(tmp->value);
+			tmp->value = newVal;
 			break;
 		}
 		tmp = tmp->next;
 	}
 	if (!tmp)
-		addAliasEnd(&aliases, varName, cmdValue);
+		addAliasEnd(&aliases, name, value);
+	else
+		free(newVal);
 }
 
 /**
@@ -88,14 +91,14 @@ void getAlias(char *varName, char *cmdValue)
 void printAlias(alias_t *alias)
 {
 	char *the_string;
-	int length = _strlen(alias->cmdName) + _strlen(alias->cmdValue) + 4;
+	int length = _strlen(alias->name) + _strlen(alias->value) + 4;
 
 	the_string = malloc(sizeof(char) * (length + 1));
 	if (!the_string)
 		return;
-	_strcpy(the_string, alias->cmdName);
+	_strcpy(the_string, alias->name);
 	_strcat(the_string, "='");
-	_strcat(the_string, alias->cmdValue);
+	_strcat(the_string, alias->value);
 	_strcat(the_string, "'\n");
 	write(STDOUT_FILENO, the_string, length);
 	free(the_string);
@@ -105,7 +108,7 @@ void printAlias(alias_t *alias)
   * @args: pointer to arrays of argument strings
   * Return: args
   */
-char **aliasesReplace(char args)
+char **aliasesReplace(char **args)
 {
 	alias_t *tmp;
 	int itr;
@@ -118,15 +121,15 @@ char **aliasesReplace(char args)
 		tmp = aliases;
 		while (tmp)
 		{
-			if (_strcmp(args[itr], tmp->cmdName) == 0)
+			if (_strcmp(args[itr], tmp->name) == 0)
 			{
-				newVal = malloc(sizeof(char) * (_strlen(tmp->cmdValue) + 1));
-				if (!newVal, tmp->cmdValue)
+				newVal = malloc(sizeof(char) * (_strlen(tmp->value) + 1));
+				if (!newVal)
 				{
-					free_args(args, args);
+					argsFree(args, args);
 					return (NULL);
 				}
-				-strcpy(newVal, tmp->cmdValue);
+				_strcpy(newVal, tmp->value);
 				free(args[itr]);
 				args[itr] = newVal;
 				itr--;

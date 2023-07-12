@@ -1,4 +1,4 @@
-#include "shell"
+#include "shell.h"
 
 
 /**
@@ -46,14 +46,12 @@ size_t size;
 
 if (!args[0] || !args[1])
 return (write_error(args, -1));
-
 newVal = malloc(_strlen(args[0]) + 1 + _strlen(args[1]) + 1);
 if (!newVal)
 return (write_error(args, -1));
 _strcpy(newVal, args[0]);
 _strcat(newVal, "=");
 _strcat(newVal, args[1]);
-
 environVar = locate_env(args[0]);
 if (environVar)
 {
@@ -70,15 +68,12 @@ if (!newEnvn)
 free(newVal);
 return (write_error(args, -1));
 }
-
 for (index = 0; environ[index]; index++)
 newEnvn[index] = environ[index];
-
+newEnvn[index++] = newVal;
+newEnvn[index] = NULL;
 free(environ);
 environ = newEnvn;
-environ[index] = newVal;
-environ[index + 1] = NULL;
-
 return (0);
 }
 

@@ -7,22 +7,24 @@
   */
 char *error126(char **args)
 {
+	int history = 1;
 	char *err_msg, *strHistory;
+	char *name = "MyShell";
 	int length;
 
-	strHistory = _itoa(history);
+	strHistory = intToStr(history);
 	if (!strHistory)
 		return (NULL);
-	length = _strlen(cmdName) + _strlen(strHistory) + _strlen(args[0]) + 24;
+	length = _strlen(name) + _strlen(strHistory) + _strlen(args[0]) + 24;
 	err_msg = malloc(sizeof(char) * (length + 1));
 	if (!err_msg)
 	{
 		free(strHistory);
 		return (NULL);
 	}
-	_strcpy(err_msg, cmdName);
+	_strcpy(err_msg, name);
 	_strcat(err_msg, ": ");
-	_strcat(err_msg, hist_str);
+	_strcat(err_msg, strHistory);
 	_strcat(err_msg, ": ");
 	_strcat(err_msg, args[0]);
 	_strcat(err_msg, ": Permission denied\n");
@@ -36,23 +38,24 @@ char *error126(char **args)
   */
 char *error127(char **args)
 {
+	int history = 1;
+	char *name = "MyShell";
 	char *err_msg, *strHistory;
 	int length;
 
-	strHistory = _itoa(history);
+	strHistory = intToStr(history);
 	if (!strHistory)
 		return (NULL);
-	length = _strlen(cmdName) + _strlen(strHistory) + _strlen(args[0]) + 16;
-	err_msg = malloc(sizeof(char) * (length + 1));
+	length = _strlen(name) + _strlen(strHistory) + _strlen(args[0]) + 16;
 	err_msg = malloc(sizeof(char) * (length + 1));
 	if (!err_msg)
 	{
 		free(strHistory);
 		return (NULL);
 	}
-	_strcpy(err_msg, cmdName);
+	_strcpy(err_msg, name);
 	_strcat(err_msg, ": ");
-	_strcat(err_msg, hist_str);
+	_strcat(err_msg, strHistory);
 	_strcat(err_msg, ": ");
 	_strcat(err_msg, args[0]);
 	_strcat(err_msg, ": not found\n");

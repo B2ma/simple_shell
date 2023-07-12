@@ -5,21 +5,21 @@
   */
 void allHelp(void)
 {
-	char *stream = "Custom_shell\nThese shell commands are defined internally.\n";
+	char *stream = "MyShell\nThese shell commands are defined internally.\n";
 
-	write(STDOUT_FILENO, msg, _strlen(stream));
+	write(STDOUT_FILENO, stream, _strlen(stream));
 	stream = "Type 'help' to see this list.\nType 'help name' to find ";
-	write(STDOUT_FILENO, msg, _strlen(stream));
+	write(STDOUT_FILENO, stream, _strlen(stream));
 	stream = "out more about the function 'name'.\n\n  alias   \t";
-	write(STDOUT_FILENO, msg, _strlen(stream));
+	write(STDOUT_FILENO, stream, _strlen(stream));
 	stream = "alias [NAME[='VALUE'] ...]\n  cd    \tcd   ";
-	write(STDOUT_FILENO, msg, _strlen(stream));
+	write(STDOUT_FILENO, stream, _strlen(stream));
 	stream = "[DIRECTORY]\n  exit    \texit [STATUS]\n  env     \tenv";
-	write(STDOUT_FILENO, msg, _strlen(stream));
+	write(STDOUT_FILENO, stream, _strlen(stream));
 	stream = "\n  setenv  \tsetenv [VARIABLE] [VALUE]\n  unsetenv\t";
-	write(STDOUT_FILENO, msg, _strlen(stream));
+	write(STDOUT_FILENO, stream, _strlen(stream));
 	stream = "unsetenv [VARIABLE]\n";
-	write(STDOUT_FILENO, msg, _strlen(stream));
+	write(STDOUT_FILENO, stream, _strlen(stream));
 }
 /**
   * aliasHelp - displays info on builtin command 'alias'
